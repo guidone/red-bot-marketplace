@@ -134,6 +134,12 @@ plug('pages', Content.Contents, {
       type: 'string',
       description: `Create a content with this body`,
       color: 'violet'
+    },
+    {
+      key: 'content_namespace',
+      type: 'string',
+      description: `Create a content with this namespace`,
+      color: 'violet'
     }
   ]
 });

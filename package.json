@@ -1,6 +1,6 @@
 {
   "name": "red-bot-market-place",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Handle plugins descriptions, repo and versions. Publish the list to jsonbin.io",
   "main": "index.js",
   "author": {

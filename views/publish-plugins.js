@@ -52,7 +52,8 @@ const PublishPlugins = () => {
             content = {
               title: fields.content_title,
               slug: fields.content_slug,
-              body: fields.content_body
+              body: fields.content_body,
+              namespace: fields.content_namespace
             };
           }
 
