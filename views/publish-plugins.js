@@ -26,7 +26,7 @@ query {
 
 const PublishPlugins = () => {
   const client = useApolloClient();
-  const { data } = useConfiguration({ namespace: 'market-place' });
+  const { data } = useConfiguration({ namespace: 'plugins-manager' });
   const [state, setState] = useState(null);
   const { put } = useFetch('https://api.jsonbin.io', {
     headers: {
@@ -61,11 +61,10 @@ const PublishPlugins = () => {
             id: fields.id,
             name: plugin.title,
             description: plugin.body,
-            url: fields.url,
-            flow: fields.flow,
+            projectId: fields.projectId,
             version: fields.version,
-            github: fields.github,
             keywords: fields.tags,
+            flow: fields.flow,
             author: {
               name: fields.author,
               url: fields.author_url

@@ -15,27 +15,32 @@ const Legend = () => (
   </div>
 );
 
-plug(
-  'sidebar',
-  null,
-  {
-    id: 'market-place',
-    label: 'Market Place',
-    url: '/market-place',
-    icon: 'shopping-basket'
-  }
-);
+plug('sidebar', null, {
+  id: 'mission-control',
+  label: 'Mission Control',
+  permission: 'admins',
+  icon: 'rocket',
+  options: [
+    {
+      id: 'plugins-manager',
+      label: 'Plugins palette',
+      permission: 'plugins.manager',
+      url: '/plugins-manager'
+    }
+  ]
+});
 
 plug('sidebar', null, {
   id: 'configuration',
+  order: 9999,
   label: 'Configuration',
-  permission: 'configure',
+  permission: 'plugins.manager',
   icon: 'cog',
   options: [
     {
-      id: 'configuration-market-place',
-      label: 'Market Place',
-      url: '/configuration-market-place',
+      id: 'configuration-plugins-manager',
+      label: 'Plugins Manager',
+      url: '/configuration-plugins-lists-manager',
     }
   ]
 });
@@ -43,25 +48,25 @@ plug('sidebar', null, {
 plug(
   'pages',
   withConfigurationPage(
-    'market-place',
+    'plugins-manager',
     ConfigureMarketPlace,
-    { Legend, title: 'Market Place' }
+    { Legend, title: 'Plugins Manager' }
   ),
   {
-    permission: 'configure',
-    url: '/configuration-market-place',
-    title: 'Market Place',
+    permission: 'plugins.manager',
+    url: '/configuration-plugins-lists-manager',
+    title: 'Plugins Manager',
     id: 'configuration'
   }
 );
 
 
 plug('pages', Content.Contents, {
-  url: '/market-place',
-  title: 'Market Place',
-  id: 'market-place',
+  url: '/plugins-manager',
+  title: 'Plugins Manager',
+  id: 'plugins-manager',
   namespace: 'plugins',
-  breadcrumbs: ['Market Place', 'Plugins'],
+  breadcrumbs: ['Plugins Manager', 'Plugins'],
   labels: {
     saveContent: 'Save plugin',
     createContent: 'Create plugin',
@@ -70,14 +75,8 @@ plug('pages', Content.Contents, {
   custom: () => <PublishPlugins />,
   customFieldsSchema: [
     {
-      key: 'url',
-      type: 'string',
-      description: `URL of the compiled plugin`,
-      color: 'cyan'
-    },
-    {
       key: 'flow',
-      type: 'string',
+      type: 'boolean',
       description: `URL of the Node-RED flow for this plugin`,
       color: 'cyan'
     },
@@ -94,22 +93,10 @@ plug('pages', Content.Contents, {
       color: 'red'
     },
     {
-      key: 'github',
+      key: 'projectId',
       type: 'string',
-      description: `The URL of the github page of the plugin`,
+      description: `The project ID of the plugin repo in GitLab`,
       color: 'red'
-    },
-    {
-      key: 'author',
-      type: 'string',
-      description: `The username of the author of the plugin`,
-      color: 'orange'
-    },
-    {
-      key: 'author_url',
-      type: 'string',
-      description: `The home page of the username, if any`,
-      color: 'orange'
     },
     {
       key: 'tags',
@@ -149,3 +136,14 @@ plug('content-tabs', DefaultConfiguration, {
   label: 'Configuration',
   namespace: ['plugins']
 });
+
+plug(
+  'permissions',
+  null,
+  {
+    permission: 'plugins.manager',
+    name: 'Plugins Manager',
+    description: 'Add and edit plugins',
+    group: 'General'
+  }
+);
