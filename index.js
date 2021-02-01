@@ -1,19 +1,14 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { plug } from 'code-plug';
 
-import { withConfigurationPage, Content } from '../../src/components';
+import { Content } from '../../src/components';
 
-import PublishPlugins from './views/publish-plugins';
-import ConfigureMarketPlace from './views/configure-market-place';
+import PublishContents from './views/publish-contents';
+import ImportContents from './views/import-contents';
 import DefaultConfiguration from './views/default-configuration';
 
-const Legend = () => (
-  <div>
-    Configure the id and the key to access <strong>jsonbing.io</strong> for the plugins met information.
-    <br />
-    Docs about the API <a href="https://jsonbin.io/api-reference/bins/read" target="blank">here</a>.
-  </div>
-);
+const PLUGINS_FILE_NAME = 'plugins2.json';
+const TEMPLATES_FILE_NAME = 'templates.json';
 
 plug('sidebar', null, {
   id: 'mission-control',
@@ -30,49 +25,33 @@ plug('sidebar', null, {
   ]
 });
 
-plug('sidebar', null, {
-  id: 'configuration',
-  order: 9999,
-  label: 'Configuration',
-  permission: 'plugins.manager',
-  icon: 'cog',
-  options: [
-    {
-      id: 'configuration-plugins-manager',
-      label: 'Plugins Manager',
-      url: '/configuration-plugins-lists-manager',
-    }
-  ]
-});
-
-plug(
-  'pages',
-  withConfigurationPage(
-    'plugins-manager',
-    ConfigureMarketPlace,
-    { Legend, title: 'Plugins Manager' }
-  ),
-  {
-    permission: 'plugins.manager',
-    url: '/configuration-plugins-lists-manager',
-    title: 'Plugins Manager',
-    id: 'configuration'
-  }
-);
-
-
 plug('pages', Content.Contents, {
   url: '/plugins-manager',
   title: 'Plugins Manager',
   id: 'plugins-manager',
   namespace: 'plugins',
-  breadcrumbs: ['Plugins Manager', 'Plugins'],
+  breadcrumbs: ['Mission Control', 'Plugins palette'],
   labels: {
     saveContent: 'Save plugin',
     createContent: 'Create plugin',
     emptyContent: 'No plugins',
   },
-  custom: () => <PublishPlugins />,
+  custom: props => (
+    <Fragment>
+      <ImportContents
+        {...props}
+        namespace="plugins"
+        fileName={PLUGINS_FILE_NAME}
+        label="Import plugins"
+      />
+      <PublishContents
+        {...props}
+        namespace="plugins"
+        fileName={PLUGINS_FILE_NAME}
+        label="Publish plugins"
+      />
+    </Fragment>
+  ),
   customFieldsSchema: [
     {
       key: 'flow',
@@ -127,6 +106,76 @@ plug('pages', Content.Contents, {
       type: 'string',
       description: `Create a content with this namespace`,
       color: 'violet'
+    }
+  ]
+});
+
+plug('sidebar', null, {
+  id: 'mission-control',
+  label: 'Mission Control',
+  permission: 'admins',
+  icon: 'rocket',
+  options: [
+    {
+      id: 'plugins-manager',
+      label: 'Templates palette',
+      permission: 'plugins.manager',
+      url: '/flows-templates-manager'
+    }
+  ]
+});
+
+plug('pages', Content.Contents, {
+  url: '/flows-templates-manager',
+  title: 'Flows Templates',
+  id: 'flows-templates',
+  namespace: 'templates',
+  breadcrumbs: ['Mission Control', 'Flows Templates'],
+  labels: {
+    saveContent: 'Save template',
+    createContent: 'Create template',
+    emptyContent: 'No templates',
+  },
+  custom: props => (
+    <Fragment>
+      <ImportContents
+        {...props}
+        namespace="templates"
+        fileName={TEMPLATES_FILE_NAME}
+        label="Import templates"
+      />
+      <PublishContents
+        {...props}
+        namespace="templates"
+        fileName={TEMPLATES_FILE_NAME}
+        label="Publish templates"
+      />
+    </Fragment>
+  ),
+  customFieldsSchema: [
+    {
+      key: 'id',
+      type: 'string',
+      description: `Unique id of the plugin`,
+      color: 'red'
+    },
+    {
+      key: 'version',
+      type: 'string',
+      description: `The version of the current (latest) plugin`,
+      color: 'red'
+    },
+    {
+      key: 'projectId',
+      type: 'string',
+      description: `The project ID of the plugin repo in GitLab`,
+      color: 'red'
+    },
+    {
+      key: 'tags',
+      type: 'tags',
+      description: `List of keywords, comma separated`,
+      color: 'red'
     }
   ]
 });
