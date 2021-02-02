@@ -19,7 +19,7 @@ plug('sidebar', null, {
     {
       id: 'plugins-manager',
       label: 'Plugins palette',
-      permission: 'plugins.manager',
+      permission: 'configuration.plugins',
       url: '/plugins-manager'
     }
   ]
@@ -31,6 +31,7 @@ plug('pages', Content.Contents, {
   id: 'plugins-manager',
   namespace: 'plugins',
   breadcrumbs: ['Mission Control', 'Plugins palette'],
+  permission: 'configuration.plugins',
   labels: {
     saveContent: 'Save plugin',
     createContent: 'Create plugin',
@@ -119,7 +120,7 @@ plug('sidebar', null, {
     {
       id: 'plugins-manager',
       label: 'Templates palette',
-      permission: 'plugins.manager',
+      permission: 'configuration.plugins',
       url: '/flows-templates-manager'
     }
   ]
@@ -130,6 +131,7 @@ plug('pages', Content.Contents, {
   title: 'Flows Templates',
   id: 'flows-templates',
   namespace: 'templates',
+  permission: 'configuration.plugins',
   breadcrumbs: ['Mission Control', 'Flows Templates'],
   labels: {
     saveContent: 'Save template',
@@ -190,9 +192,9 @@ plug(
   'permissions',
   null,
   {
-    permission: 'plugins.manager',
-    name: 'Plugins Manager',
-    description: 'Add and edit plugins',
+    permission: 'configuration.plugins',
+    name: 'Plugins & Templates Manager',
+    description: 'Add and edit plugins / templates',
     group: 'General'
   }
 );

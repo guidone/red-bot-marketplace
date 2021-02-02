@@ -1,5 +1,5 @@
 {
-  "name": "red-bot-market-place",
+  "name": "plugins-manager",
   "version": "1.0.2",
   "description": "Handle plugins descriptions, repo and versions. Publish the list to jsonbin.io",
   "main": "index.js",
